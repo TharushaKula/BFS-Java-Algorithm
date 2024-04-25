@@ -7,19 +7,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Parser {
-    public Scanner lineSc = null;
+    public Scanner lineScan = null;
     private final ArrayList<String> linesArrayList = new ArrayList<>();
-    private boolean isRead;        //to verify the file reading process is successful
+    private boolean isScanned;        //to verify the file reading process is successful
     private boolean isLoaded;      //to verify whether the file is loaded successfully
-    private File fileInput;         //to save the relevant txt file
-    public int[] endingNode;
-    public int[] startingNode;
+    private File fileInput;        //to save the relevant txt file
+    public int[] endNode; 
+    public int[] startNode;
     public int[][] puzzle;
     
     
     public Boolean asFileRead() //for the easiness of the exception
     {
-        return this.isRead;
+        return this.isScanned;
     }
 
     public int[][] getPuzzle() {
@@ -34,7 +34,7 @@ public class Parser {
     {
         if (checkFile())
         {
-            return this.startingNode;
+            return this.startNode;
         }
         return null;
     }
@@ -43,7 +43,7 @@ public class Parser {
     {
         if (checkFile())
         {
-            return this.endingNode;
+            return this.endNode;
         }
         return null;
     }
@@ -51,7 +51,7 @@ public class Parser {
     
     public void retrievingLines() throws IOException
     {
-        if (this.isRead)
+        if (this.isScanned)
         {
             linesArrayList.addAll(Files.readAllLines(fileInput.toPath(), Charset.defaultCharset()));
             this.isLoaded = true;
@@ -68,7 +68,7 @@ public class Parser {
 
     public ArrayList<String> getLinesArrayList()
     {
-        if (this.isRead)
+        if (this.isScanned)
         {
             return this.linesArrayList;
         }
@@ -86,13 +86,13 @@ public class Parser {
         }
 
         this.fileInput = fileInput;
-        this.isRead = true;
+        this.isScanned = true;
     }
 
 
     public File getInputFile()
     {
-        if (this.isRead)
+        if (this.isScanned)
         {
             return fileInput;
         }
@@ -118,22 +118,22 @@ public class Parser {
 
         for (int i = 0; i < linesArrayList1.size(); i++){
             String line = linesArrayList1.get(i);
-            this.lineSc = new Scanner(line);
+            this.lineScan = new Scanner(line);
             int[] floor = new int[horizontalSize];
             int count = 0;
 
-            while (lineSc.hasNext()) {
+            while (lineScan.hasNext()) {
                 if (count < horizontalSize){
-                    String node = lineSc.nextLine();
+                    String node = lineScan.nextLine();
                     node = node.replace("0", "1");  //restoring zeros with ones and dots with zeros
                     node = node.replace(".", "0");
 
                     if(node.contains("S")){
-                        this.startingNode = new int[]{counterOfLines, node.indexOf("S")};    //starting point S is restoring with 0
+                        this.startNode = new int[]{counterOfLines, node.indexOf("S")};    //starting point S is restoring with 0
                         node = node.replace("S", "0");
                     }
                     if(node.contains("F")){
-                        this.endingNode = new int[]{counterOfLines, node.indexOf("F")};
+                        this.endNode = new int[]{counterOfLines, node.indexOf("F")};
                         node = node.replace("F", "0");                  //finishing point S is restoring with 0
                     }
                     String[] string = node.split("");

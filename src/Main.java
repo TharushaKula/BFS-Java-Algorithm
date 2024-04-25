@@ -17,7 +17,6 @@ public class Main {
 
         loadNewFile();
 
-
     }
 
     private static void totalDistance(){    //to display the shortest path
@@ -33,16 +32,9 @@ public class Main {
     }
 
     private static void loadNewFile(){
-
-        System.out.println("Please put the relevant text file into the 'MazeFolder' \n");
         try {
-            String newInputFileName;
-            System.out.println("Note: Please enter a valid text file name below");
-            System.out.print("New Input File Name:  ");
-            newInputFileName = input.nextLine();  //getting the file name
-
             Parser fileParser = new Parser();
-            fileParser.fileRead("src/MazeFolder/" + newInputFileName);
+            fileParser.fileRead("src/MazeFolder/" + "puzzle_320.txt");
             fileParser.retrievingLines();
             fileParser.retrieveValues();
             if (!fileParser.asFileRead()) {
@@ -52,10 +44,11 @@ public class Main {
             getFile = fileParser.getInputFile();
             parser = fileParser;
 
-            Instant start = Instant.now();  //timer to count
+            Instant start = Instant.now();
             totalDistance();
             Instant end = Instant.now();
-            System.out.println(Duration.between(start, end));
+            long milliseconds = Duration.between(start, end).toMillis(); // Duration in milliseconds
+            System.out.println(milliseconds + " milliseconds");
 
             System.out.println("Shortest path founded.\n"+"DONE!");
 
